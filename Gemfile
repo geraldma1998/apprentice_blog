@@ -58,5 +58,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
-
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+gem 'rubocop', require: false
+gem 'bootstrap', '~> 4.3.1'
+gem 'jquery-rails'
