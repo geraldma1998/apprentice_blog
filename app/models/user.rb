@@ -7,8 +7,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :username, presence: true, format: { with: /\A[a-zA-Z0-9]*\z/,
-                                                 message: "has invalid character." }
-  validates :username, length: { minimum: 1, maximum: 30 }
+  validates :username, presence: true,
+                       format: { with: /\A[a-zA-Z0-9]*\z/,
+                                 message: "has invalid characters." },
+                       uniqueness: true,
+                       length: { in: 1..50 }
 
 end
