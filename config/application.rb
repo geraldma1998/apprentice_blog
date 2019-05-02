@@ -1,4 +1,6 @@
-require_relative 'boot'
+# frozen_string_literal: true
+
+require_relative "boot"
 
 require "rails"
 # Pick the frameworks you want:
@@ -18,7 +20,9 @@ require "sprockets/railtie"
 Bundler.require(*Rails.groups)
 
 module ApprenticeBlog
+
   class Application < Rails::Application
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
@@ -29,5 +33,7 @@ module ApprenticeBlog
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
   end
+
 end
