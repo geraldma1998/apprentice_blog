@@ -9,5 +9,4 @@ class User < ApplicationRecord
                                  message: "has invalid character." },
                        presence: true,
                        uniqueness: true
-
 end
