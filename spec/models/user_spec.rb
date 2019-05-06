@@ -26,7 +26,11 @@ RSpec.describe User, type: :model do
 
   describe ':password validations' do
     it 'Should validate password length' do
-      should validate_length_of(:password).is_at_least(6)
+      should validate_length_of(:password).is_at_least(6).is_at_most(128)
+    end
+
+    it 'Should validate presence of password' do
+      should validate_presence_of(:password)
     end
   end
 end
