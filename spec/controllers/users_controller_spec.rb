@@ -3,28 +3,17 @@
 require "rails_helper"
 
 RSpec.describe UsersController, type: :controller do
-  describe "Get #show" do
+  describe "GET #show" do
+    let(:user) { FactoryBot.create(:user) }
+
     before do
-      @user = FactoryBot.create(:user)
-      get :show, params: { id: @user.id }
+      get :show, params: { id: user.id }
     end
 
-    it "Validate that show method render to show view" do
-      expect(subject).to render_template("show")
-    end
+    it { is_expected.to render_template("show") }
 
-    it "Validate that show method render with application layout" do
-      expect(subject).to render_with_layout("application")
-    end
+    it { is_expected.to render_with_layout("application") }
 
-    it "Validate show route" do
-      expect(subject).to route(:get, ("/users/" + @user.id.to_s)).to(action: :show, id: @user.id)
-    end
-  end
-
-  describe "Before action validations" do
-    it "Validate before_action call set_user" do
-      expect(subject).to use_before_action(:set_user)
-    end
+    it { is_expected.to route(:get, ("/users/" + user.id.to_s)).to(action: :show, id: user.id) }
   end
 end
