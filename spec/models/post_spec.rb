@@ -3,27 +3,19 @@
 require "rails_helper"
 
 RSpec.describe Post, type: :model do
+  subject(:post) { FactoryBot.create(:post) }
+
   describe ":title validations" do
-    subject { FactoryBot.create(:post) }
+    it { expect(post).to validate_length_of(:title).is_at_least(1).is_at_most(100) }
 
-    it "validate title length" do
-      expect(subject).to validate_length_of(:title).is_at_least(1).is_at_most(100)
-    end
-
-    it "validates presence of title" do
-      expect(subject).to validate_presence_of(:title)
-    end
+    it { expect(post).to validate_presence_of(:title) }
   end
 
   describe ":content attribute validations" do
-    it "validates presence of content" do
-      expect(subject).to validate_presence_of(:content)
-    end
+    it { expect(post).to validate_presence_of(:content) }
   end
 
   describe ":opened attribute validations" do
-    it "validates presence of opened" do
-      expect(subject).to validate_presence_of(:opened)
-    end
+    it { expect(post).to validate_presence_of(:opened) }
   end
 end
