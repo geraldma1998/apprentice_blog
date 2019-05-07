@@ -1,14 +1,17 @@
-<dir>
+<div>
+	<strong>Id</strong>
+	<%= @user.id %>
+</div>
+
+<div>
   <strong>Username:</strong>
   <%= @user.username %>
-</dir>
+</div>
 
-<dir>
+<div>
 	<strong>Email:</strong>
   <%= @user.email %>
-</dir>
+</div>
 
-<dir>
-	<strong>Password:</strong>
-  <%= "*******" %>
-</dir>
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
