@@ -1,0 +1,17 @@
+<dir>
+  <strong>Id:</strong>
+  <%= @post.id %>
+</dir>
+
+<dir>
+	<strong>Title:</strong>
+  <%= @post.title %>
+</dir>
+
+<dir>
+	<strong>Content:</strong>
+  <%= @post.content %>
+</dir>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
