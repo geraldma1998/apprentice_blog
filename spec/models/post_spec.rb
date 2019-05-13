@@ -3,7 +3,10 @@
 require "rails_helper"
 
 RSpec.describe Post, type: :model do
-  subject(:post) { FactoryBot.create(:post) }
+  subject(:post) do
+    user = FactoryBot.create(:user)
+    FactoryBot.create(:post, user: user)
+  end
 
   describe ":title validations" do
     it { expect(post).to validate_length_of(:title).is_at_least(1).is_at_most(100) }

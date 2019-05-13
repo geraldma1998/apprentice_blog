@@ -5,5 +5,6 @@ FactoryBot.define do
     title { Faker::JapaneseMedia::OnePiece.unique.character }
     content { Faker::JapaneseMedia::OnePiece.unique.quote }
     opened { true }
+    user
   end
 end
