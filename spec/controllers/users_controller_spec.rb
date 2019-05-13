@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe PostsController, type: :controller do
+RSpec.describe UsersController, type: :controller do
   describe "GET #index" do
 
     before do
@@ -13,7 +13,7 @@ RSpec.describe PostsController, type: :controller do
 
     it { is_expected.to render_with_layout("application") }
 
-    it { is_expected.to route(:get, "/posts").to(action: :index) }
+    it { is_expected.to route(:get, "/users").to(action: :index) }
   end
 
   describe "GET #new" do
@@ -28,31 +28,30 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe "GET #edit" do
-    let(:post) { FactoryBot.create(:post) }
+    let(:user) { FactoryBot.create(:user) }
 
     before do
-      get :edit, params: { id: post.id }
+      get :edit, params: { id: user.id }
     end
 
     it { is_expected.to render_template("edit") }
 
     it { is_expected.to render_with_layout("application") }
 
-    it { is_expected.to route(:get, ("/posts/" + post.id.to_s + "/edit")).to(action: :edit, id: post.id) }
+    it { is_expected.to route(:get, ("/users/" + user.id.to_s + "/edit")).to(action: :edit, id: user.id) }
   end
 
   describe "GET #show" do
-    let(:post) { FactoryBot.create(:post) }
+    let(:user) { FactoryBot.create(:user) }
 
     before do
-      get :show, params: { id: post.id }
+      get :show, params: { id: user.id }
     end
 
     it { is_expected.to render_template("show") }
 
     it { is_expected.to render_with_layout("application") }
 
-    it { is_expected.to route(:get, ("/posts/" + post.id.to_s)).to(action: :show, id: post.id) }
+    it { is_expected.to route(:get, ("/users/" + user.id.to_s)).to(action: :show, id: user.id) }
   end
-
 end

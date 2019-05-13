@@ -1,2 +1,22 @@
+<<<<<<< HEAD
 <h1>Posts#show</h1>
 <p>Find me in app/views/posts/show.html.erb</p>
+=======
+<dir>
+  <strong>Id:</strong>
+  <%= @post.id %>
+</dir>
+
+<dir>
+	<strong>Title:</strong>
+  <%= @post.title %>
+</dir>
+
+<dir>
+	<strong>Content:</strong>
+  <%= @post.content %>
+</dir>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
+>>>>>>> 1ce25dd559617967ec4d5340482ba43e509948f5
