@@ -7,7 +7,7 @@ ruby "2.6.1"
 
 gem "bootsnap", ">= 1.1.0", require: false
 gem "bootstrap", "~> 4.3.1"
-gem 'bundle-audit', '~> 0.1.0'
+gem "bundle-audit", "~> 0.1.0"
 gem "coffee-rails", "~> 4.2"
 gem "devise"
 gem "faker", git: "https://github.com/stympy/faker.git", branch: "master"
@@ -26,6 +26,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 3.8"
+  gem "rspec_junit_formatter"
   gem "rubocop-rspec"
   gem "shoulda-matchers"
 end
