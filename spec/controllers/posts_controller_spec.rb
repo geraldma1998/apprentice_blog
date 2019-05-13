@@ -54,4 +54,5 @@ RSpec.describe PostsController, type: :controller do
 
     it { is_expected.to route(:get, ("/posts/" + post.id.to_s)).to(action: :show, id: post.id) }
   end
+
 end
