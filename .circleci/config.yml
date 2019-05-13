@@ -84,14 +84,14 @@ workflow:
   version: 2
   build_test_deploy:
     jobs:
-      -bundle
+      - bundle
 
-      -rubocop:
-        requires:
-          - bundle
-      -bundle_audit:
-        requires:
-          - bundle
-      -rspec:
-        requires:
-          - bundle
+      - rubocop:
+         requires:
+            - bundle
+      - bundle_audit:
+          requires:
+            - bundle
+      - rspec:
+          requires:
+            - bundle
