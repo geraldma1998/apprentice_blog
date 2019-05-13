@@ -76,7 +76,7 @@ jobs:
                               --out /tmp/test-results/rspec.xml \
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
-      - storage_test_results:
+      - store_test_results:
           path: /tpm/test-results
 
 workflows:
