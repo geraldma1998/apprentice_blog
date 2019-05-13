@@ -59,6 +59,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/tmp
+
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 2m
@@ -70,7 +71,7 @@ jobs:
       - run:
           shell: /bin/bash -eo pipefail -O globstar
           name: rspec
-          command:
+          command: |
             bundle exec rspec --profile 10 \
                               --format RspecJunitFormatter \
                               --out /tmp/test-results/rspec.xml \
