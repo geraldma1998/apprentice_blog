@@ -80,7 +80,7 @@ jobs:
       - storage_test_results:
         path: /tpm/test-results
 
-workflow:
+workflows:
   version: 2
   build_test_deploy:
     jobs:
