@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   def set_default_header_information
     @header_title = "Apprentice Blog"
     @header_subtitle = "A blog about nothing"
-    @header_image = "assets/home-bg.jpg"
+    @header_image = "/assets/home-bg.jpg"
   end
 
 end
