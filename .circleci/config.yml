@@ -51,25 +51,24 @@ jobs:
     <<: *default_job_config
     steps:
       - attach_workspace:
-        at: ~/tmp
+          at: ~/tmp
       - run: bundle exec bundle-audit
 
   rspec:
     <<: *default_job_config
     steps:
       - attach_workspace:
-        at: ~/tmp
-
+          at: ~/tmp
       - run:
-        name: Wait for POSTGRES_DB
-        command: dockerize -wait tcp://localhost:5432 -timeout 2m
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 2m
 
       - run: bundle exec rake db:create  
       - run: bundle exec rake db:schema:load
       - run: bundle exec rake db:test:prepare
 
       - run:
-          shell: /bin/bash -eo pipefail -0 globstar
+          shell: /bin/bash -eo pipefail -O globstar
           name: rspec
           command:
             bundle exec rspec --profile 10 \
@@ -78,7 +77,7 @@ jobs:
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
       - storage_test_results:
-        path: /tpm/test-results
+          path: /tpm/test-results
 
 workflows:
   version: 2
