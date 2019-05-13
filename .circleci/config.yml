@@ -40,6 +40,30 @@ jobs:
           paths:
             - .
 
+  yarn:
+    <<: *default_job_config
+    steps:
+    - attach_workspace:
+        at: ~/tmp
+
+    - restore_cache:
+      keys:
+        - yarn-cache-{{ arch }}--{{ .Branch }}-{{ checksum "yarn.lock" }}
+        - yarn-cache-{{ arch }}--{{ .Branch }}
+        - yarn-cache
+
+    - run: yarn
+
+    - save_cache:
+        key: yarn-cache-{{ arch }}--{{ .Branch }}-{{ checksum "yarn.lock" }}
+        paths:
+          - ~/tmp/node_modules
+
+    - persist_to_workspace:
+        root: .
+        paths:
+          - .
+
   rubocop:
     <<: *default_job_config
     steps:
@@ -87,8 +111,12 @@ workflows:
     jobs:
       - bundle
 
+      - yarn:
+          requires:
+            - bundle
+
       - rubocop:
-         requires:
+          requires:
             - bundle
       - bundle_audit:
           requires:
@@ -96,3 +124,4 @@ workflows:
       - rspec:
           requires:
             - bundle
+            - yarn
