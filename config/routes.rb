@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   # get 'posts/index'
-  devise_for :users
+  devise_for :users, controllers: { registrations: "users/registrations" }
 
   resources :posts
 
