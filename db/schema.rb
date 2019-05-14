@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2019_05_14_135030) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.integer "identification"
+    t.integer "identification", null: false
     t.string "phone_number"
     t.string "first_name"
     t.string "last_name"
