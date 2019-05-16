@@ -4,62 +4,168 @@ require "rails_helper"
 
 RSpec.describe CommentsController, type: :controller do
   describe "GET #index" do
+    let(:comments) { FactoryBot.create_list(:comment, 3) }
 
-    before do
-      get :index
+    context "when the request is valid" do
+      before { get :index }
+
+      it "renders the index view" do
+        expect(response).to render_template(:index)
+      end
+
+      it "returns status code :ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "validates @comments" do
+        expect(assigns(:comments)).to match(comments)
+      end
+    end
+  end
+
+  describe "GET #show" do
+    let(:current_comment) { FactoryBot.create(:comment) }
+    let(:comment_id) { current_comment.id }
+    let(:params) do
+      {
+        id: comment_id,
+      }
     end
 
-    it { is_expected.to render_template("index") }
+    context "when the request is valid" do
+      before { get :show, params: params }
 
-    it { is_expected.to render_with_layout("application") }
+      it "renders the show view" do
+        expect(response).to render_template(:show)
+      end
 
-    it { is_expected.to route(:get, "/comments").to(action: :index) }
+      it "returns status code :ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "validates @comment" do
+        expect(assigns(:comment)).to match(current_comment)
+      end
+    end
+  end
+
+  describe "GET #edit" do
+    let(:current_comment) { FactoryBot.create(:comment) }
+    let(:comment_id) { current_comment.id }
+    let(:params) do
+      {
+        id: comment_id,
+      }
+    end
+
+    context "when the request is valid" do
+      before { get :edit, params: params }
+
+      it "renders the edit view" do
+        expect(response).to render_template(:edit)
+      end
+
+      it "returns status code :ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "validates @comment exists" do
+        expect(assigns(:comment)).to match(current_comment)
+      end
+    end
   end
 
   describe "GET #new" do
 
-    before do
-      get :new
+    context "when the request is valid" do
+      before { get :new }
+
+      it "renders the new view" do
+        expect(response).to render_template(:new)
+      end
+
+      it "returns status code :ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "validates @comment exists" do
+        expect(assigns(:comment)).to be_a_new(Comment)
+      end
     end
-
-    it { is_expected.to render_template("new") }
-
-    it { is_expected.to render_with_layout("application") }
   end
 
-  describe "GET #edit" do
-    let(:comment) do
-      user = FactoryBot.create(:user)
-      post = FactoryBot.create(:post, user: user)
-      FactoryBot.create(:comment, user: user, post: post)
+  describe "POST #create" do
+
+    let(:current_comment) { FactoryBot.attributes_for(:comment) }
+
+    let(:params) do
+      {
+        comment: current_comment,
+      }
     end
 
-    before do
-      get :edit, params: { id: comment.id }
+    context "when the request is valid" do
+
+      before { post :create, params: params }
+
+      it "returns status code :ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
     end
-
-    it { is_expected.to render_template("edit") }
-
-    it { is_expected.to render_with_layout("application") }
-
-    it { is_expected.to route(:get, ("/comments/" + comment.id.to_s + "/edit")).to(action: :edit, id: comment.id) }
   end
 
-  describe "GET #show" do
-    let(:comment) do
-      user = FactoryBot.create(:user)
-      post = FactoryBot.create(:post, user: user)
-      FactoryBot.create(:comment, user: user, post: post)
+  describe "POST #update" do
+
+    let(:current_comment) { FactoryBot.create(:comment) }
+    let(:comment_id) { current_comment.id }
+    let(:updated_comment) { FactoryBot.attributes_for(:comment) }
+
+    let(:params) do
+      {
+        id: comment_id,
+        comment: updated_comment,
+      }
     end
 
-    before do
-      get :show, params: { id: comment.id }
+    context "when the request is valid" do
+
+      before { post :update, params: params }
+
+      it "returns status code :found" do
+        expect(response).to have_http_status(:found)
+      end
+
+      it "redirect_to :show" do
+        expect(response).to redirect_to(action: :show)
+      end
+
+    end
+  end
+
+  describe "POST #destroy" do
+
+    let(:current_comment) { FactoryBot.create(:comment) }
+    let(:comment_id) { current_comment.id }
+
+    let(:params) do
+      {
+        id: comment_id,
+      }
     end
 
-    it { is_expected.to render_template("show") }
+    context "when the request is valid" do
 
-    it { is_expected.to render_with_layout("application") }
+      before { post :destroy, params: params }
 
-    it { is_expected.to route(:get, ("/comments/" + comment.id.to_s)).to(action: :show, id: comment.id) }
+      it "returns status code :found" do
+        expect(response).to have_http_status(:found)
+      end
+
+      it "redirect_to :index" do
+        expect(response).to redirect_to(action: :index)
+      end
+
+    end
   end
 end

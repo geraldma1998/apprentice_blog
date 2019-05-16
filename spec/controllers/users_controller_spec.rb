@@ -3,55 +3,170 @@
 require "rails_helper"
 
 RSpec.describe UsersController, type: :controller do
-  describe "GET #index" do
 
-    before do
-      get :index
+  describe "GET #index" do
+    let(:users) { FactoryBot.create_list(:user, 3) }
+
+    context "when the request is valid" do
+      before { get :index }
+
+      it "renders the index view" do
+        expect(response).to render_template(:index)
+      end
+
+      it "returns status code :ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "validates @users" do
+        expect(assigns(:users)).to match(users)
+      end
+    end
+  end
+
+  describe "GET #show" do
+    let(:current_user) { FactoryBot.create(:user) }
+    let(:user_id) { current_user.id }
+    let(:params) do
+      {
+        id: user_id,
+      }
     end
 
-    it { is_expected.to render_template("index") }
+    context "when the request is valid" do
+      before { get :show, params: params }
 
-    it { is_expected.to render_with_layout("application") }
+      it "renders the show view" do
+        expect(response).to render_template(:show)
+      end
 
-    it { is_expected.to route(:get, "/users").to(action: :index) }
+      it "returns status code :ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "validates @user" do
+        expect(assigns(:user)).to match(current_user)
+      end
+    end
+  end
+
+  describe "GET #edit" do
+    let(:current_user) { FactoryBot.create(:user) }
+    let(:user_id) { current_user.id }
+    let(:params) do
+      {
+        id: user_id,
+      }
+    end
+
+    context "when the request is valid" do
+      before { get :edit, params: params }
+
+      it "renders the edit view" do
+        expect(response).to render_template(:edit)
+      end
+
+      it "returns status code :ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "validates @user exists" do
+        expect(assigns(:user)).to match(current_user)
+      end
+    end
   end
 
   describe "GET #new" do
 
-    before do
-      get :new
+    context "when the request is valid" do
+      before { get :new }
+
+      it "renders the new view" do
+        expect(response).to render_template(:new)
+      end
+
+      it "returns status code :ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "validates @user exists" do
+        expect(assigns(:user)).to be_a_new(User)
+      end
     end
-
-    it { is_expected.to render_template("new") }
-
-    it { is_expected.to render_with_layout("application") }
   end
 
-  describe "GET #edit" do
-    let(:user) { FactoryBot.create(:user) }
+  describe "POST #create" do
 
-    before do
-      get :edit, params: { id: user.id }
+    let(:current_user) { FactoryBot.attributes_for(:user) }
+
+    let(:params) do
+      {
+        user: current_user,
+      }
     end
 
-    it { is_expected.to render_template("edit") }
+    context "when the request is valid" do
 
-    it { is_expected.to render_with_layout("application") }
+      before { post :create, params: params }
 
-    it { is_expected.to route(:get, ("/users/" + user.id.to_s + "/edit")).to(action: :edit, id: user.id) }
+      it "returns status code :found" do
+        expect(response).to have_http_status(:found)
+      end
+
+    end
   end
 
-  describe "GET #show" do
-    let(:user) { FactoryBot.create(:user) }
+  describe "POST #update" do
 
-    before do
-      get :show, params: { id: user.id }
+    let(:current_user) { FactoryBot.create(:user) }
+    let(:user_id) { current_user.id }
+    let(:updated_user) { FactoryBot.attributes_for(:user) }
+
+    let(:params) do
+      {
+        id: user_id,
+        user: updated_user,
+      }
     end
 
-    it { is_expected.to render_template("show") }
+    context "when the request is valid" do
 
-    it { is_expected.to render_with_layout("application") }
+      before { post :update, params: params }
 
-    it { is_expected.to route(:get, ("/users/" + user.id.to_s)).to(action: :show, id: user.id) }
+      it "returns status code :found" do
+        expect(response).to have_http_status(:found)
+      end
+
+      it "redirect_to :show" do
+        expect(response).to redirect_to(action: :show)
+      end
+
+    end
+  end
+
+  describe "POST #destroy" do
+
+    let(:current_user) { FactoryBot.create(:user) }
+    let(:user_id) { current_user.id }
+
+    let(:params) do
+      {
+        id: user_id,
+      }
+    end
+
+    context "when the request is valid" do
+
+      before { post :destroy, params: params }
+
+      it "returns status code :found" do
+        expect(response).to have_http_status(:found)
+      end
+
+      it "redirect_to :index" do
+        expect(response).to redirect_to(action: :index)
+      end
+
+    end
   end
 end

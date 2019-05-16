@@ -8,17 +8,14 @@ RSpec.describe Post, type: :model do
     FactoryBot.create(:post, user: user)
   end
 
-  describe ":title validations" do
+  describe "validations" do
     it { expect(post).to validate_length_of(:title).is_at_least(1).is_at_most(100) }
 
     it { expect(post).to validate_presence_of(:title) }
-  end
 
-  describe ":content attribute validations" do
     it { expect(post).to validate_presence_of(:content) }
-  end
 
-  describe ":opened attribute validations" do
     it { expect(post).to validate_presence_of(:opened) }
   end
+
 end

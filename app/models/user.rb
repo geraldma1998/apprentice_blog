@@ -16,4 +16,6 @@ class User < ApplicationRecord
                        presence: true,
                        uniqueness: true
 
+  validates :password, presence: true
+
 end

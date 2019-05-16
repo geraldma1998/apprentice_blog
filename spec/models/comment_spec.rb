@@ -9,7 +9,7 @@ RSpec.describe Comment, type: :model do
     FactoryBot.create(:comment, user: user, post: post)
   end
 
-  describe ":message attribute validations" do
+  describe "validations" do
     it { expect(comment).to validate_presence_of(:message) }
   end
 end
