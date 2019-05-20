@@ -1,0 +1,9 @@
+<tr>
+  <td><%= ranking.id %></td>
+  <td><%= ranking.rank %></td>
+  <td><%= ranking.user_id %></td>
+  <td><%= ranking.post_id %></td>
+  <td><%= link_to 'Show', ranking %></td>
+  <td><%= link_to 'Edit', edit_ranking_path(ranking) %></td>
+  <td><%= link_to 'Destroy', ranking, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>

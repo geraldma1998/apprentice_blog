@@ -1,0 +1,24 @@
+
+<div>
+  <strong>Id:</strong>
+  <%= @ranking.id %>
+</div>
+
+<div>
+  <strong>Rank:</strong>
+  <%= @ranking.message %>
+</div>
+
+<div>
+  <strong>User:</strong>
+  <%= @ranking.user_id %>
+</div>
+
+<div>
+  <strong>Post:</strong>
+  <%= @ranking.post_id %>
+</div>
+
+<%= link_to 'Edit', edit_ranking_path(@ranking) %> |
+<%= link_to 'Back', rankings_path %>
+
