@@ -2,13 +2,13 @@
 
 Rails.application.routes.draw do
   # get 'posts/index'
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
 
   resources :posts
 
   resources :users
 
-  resources :categories
+  resources :comments
 
   root "home#index"
 
