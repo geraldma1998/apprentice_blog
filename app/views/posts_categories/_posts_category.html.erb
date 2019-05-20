@@ -1,0 +1,8 @@
+<tr>
+  <td><%= posts_category.id %></td>
+  <td><%= posts_category.post_id %></td>
+  <td><%= posts_category.category_id %></td>
+  <td><%= link_to 'Show', posts_category %></td>
+  <td><%= link_to 'Edit', edit_posts_category_path(posts_category) %></td>
+  <td><%= link_to 'Destroy', posts_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>
