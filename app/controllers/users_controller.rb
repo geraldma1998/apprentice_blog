@@ -2,6 +2,7 @@
 
 class UsersController < ApplicationController
 
+  access admin: :all
   before_action :set_user, only: %i[show edit update destroy]
 
   def index
