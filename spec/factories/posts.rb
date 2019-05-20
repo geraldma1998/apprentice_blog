@@ -3,7 +3,8 @@
 FactoryBot.define do
   factory :post do
     title { Faker::JapaneseMedia::OnePiece.unique.character }
-    content { Faker::JapaneseMedia::OnePiece.unique.quote }
+    content { Faker::JapaneseMedia::OnePiece.quote }
     opened { true }
+    user
   end
 end

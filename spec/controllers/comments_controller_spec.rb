@@ -2,10 +2,9 @@
 
 require "rails_helper"
 
-RSpec.describe PostsController, type: :controller do
-
+RSpec.describe CommentsController, type: :controller do
   describe "GET #index" do
-    let(:posts) { FactoryBot.create_list(:post, 3) }
+    let(:comments) { FactoryBot.create_list(:comment, 3) }
 
     context "when the request is valid" do
       before { get :index }
@@ -18,18 +17,18 @@ RSpec.describe PostsController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      it "validates @posts" do
-        expect(assigns(:posts)).to match(posts)
+      it "validates @comments" do
+        expect(assigns(:comments)).to match(comments)
       end
     end
   end
 
   describe "GET #show" do
-    let(:post) { FactoryBot.create(:post) }
-    let(:post_id) { post.id }
+    let(:current_comment) { FactoryBot.create(:comment) }
+    let(:comment_id) { current_comment.id }
     let(:params) do
       {
-        id: post_id,
+        id: comment_id,
       }
     end
 
@@ -44,18 +43,18 @@ RSpec.describe PostsController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      it "validates @post" do
-        expect(assigns(:post)).to match(post)
+      it "validates @comment" do
+        expect(assigns(:comment)).to match(current_comment)
       end
     end
   end
 
   describe "GET #edit" do
-    let(:post) { FactoryBot.create(:post) }
-    let(:post_id) { post.id }
+    let(:current_comment) { FactoryBot.create(:comment) }
+    let(:comment_id) { current_comment.id }
     let(:params) do
       {
-        id: post_id,
+        id: comment_id,
       }
     end
 
@@ -70,8 +69,8 @@ RSpec.describe PostsController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      it "validates @post exists" do
-        expect(assigns(:post)).to match(post)
+      it "validates @comment exists" do
+        expect(assigns(:comment)).to match(current_comment)
       end
     end
   end
@@ -89,19 +88,19 @@ RSpec.describe PostsController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      it "validates @post exists" do
-        expect(assigns(:post)).to be_a_new(Post)
+      it "validates @comment exists" do
+        expect(assigns(:comment)).to be_a_new(Comment)
       end
     end
   end
 
   describe "POST #create" do
 
-    let(:current_post) { FactoryBot.attributes_for(:post) }
+    let(:current_comment) { FactoryBot.attributes_for(:comment) }
 
     let(:params) do
       {
-        post: current_post,
+        comment: current_comment,
       }
     end
 
@@ -118,15 +117,14 @@ RSpec.describe PostsController, type: :controller do
 
   describe "POST #update" do
 
-    let(:user) { FactoryBot.create(:user) }
-    let(:current_post) { FactoryBot.create(:post, user: user) }
-    let(:post_id) { current_post.id }
-    let(:updated_post) { FactoryBot.attributes_for(:post) }
+    let(:current_comment) { FactoryBot.create(:comment) }
+    let(:comment_id) { current_comment.id }
+    let(:updated_comment) { FactoryBot.attributes_for(:comment) }
 
     let(:params) do
       {
-        id: post_id,
-        post: updated_post,
+        id: comment_id,
+        comment: updated_comment,
       }
     end
 
@@ -134,7 +132,7 @@ RSpec.describe PostsController, type: :controller do
 
       before { post :update, params: params }
 
-      it "returns status code :ok" do
+      it "returns status code :found" do
         expect(response).to have_http_status(:found)
       end
 
@@ -147,12 +145,12 @@ RSpec.describe PostsController, type: :controller do
 
   describe "POST #destroy" do
 
-    let(:current_post) { FactoryBot.create(:post) }
-    let(:post_id) { current_post.id }
+    let(:current_comment) { FactoryBot.create(:comment) }
+    let(:comment_id) { current_comment.id }
 
     let(:params) do
       {
-        id: post_id,
+        id: comment_id,
       }
     end
 
@@ -170,5 +168,4 @@ RSpec.describe PostsController, type: :controller do
 
     end
   end
-
 end

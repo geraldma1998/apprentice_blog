@@ -11,14 +11,33 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.email_field :email, autocomplete: "email", autofocus: true %>
-  </div>
+  <%= form.fields_for :person do |person_fields| %>
+    <div class="field">
+      <%= person_fields.label :identification %>
+      <%= person_fields.text_field :identification, autofocus: true %>
+    </div>
+    <div class="field">
+      <%= person_fields.label :phone_number %>
+      <%= person_fields.text_field :phone_number %>
+    </div>
+    <div class="field">
+      <%= person_fields.label :first_name %>
+      <%= person_fields.text_field :first_name %>
+    </div>
+    <div class="field">
+      <%= person_fields.label :last_name %>
+      <%= person_fields.text_field :last_name %>
+    </div>
+  <% end %>
 
   <div class="field">
     <%= form.label :username %>
     <%= form.text_field :username %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.email_field :email %>
   </div>
 
   <div class="field">
