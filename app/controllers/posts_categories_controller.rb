@@ -30,7 +30,7 @@ class PostsCategoriesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @posts_category.update(PostsCategory_params)
+      if @posts_category.update(posts_category_params)
         format.html { redirect_to @posts_category, notice: "PostsCategory was successfully updated" }
       else
         format.html { render :edit }

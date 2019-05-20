@@ -2,9 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe CategoriesController, type: :controller do
+RSpec.describe PostsCategoriesController, type: :controller do
+
   describe "GET #index" do
-    let(:categories) { FactoryBot.create_list(:category, 3) }
+    let(:posts_categories) { FactoryBot.create_list(:posts_category, 3) }
 
     context "when the request is valid" do
       before { get :index }
@@ -17,18 +18,18 @@ RSpec.describe CategoriesController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      it "validates @categories" do
-        expect(assigns(:categories)).to match(categories)
+      it "validates @posts_categories" do
+        expect(assigns(:posts_categories)).to match(posts_categories)
       end
     end
   end
 
   describe "GET #show" do
-    let(:category) { FactoryBot.create(:category) }
-    let(:category_id) { category.id }
+    let(:posts_category) { FactoryBot.create(:posts_category) }
+    let(:posts_category_id) { posts_category.id }
     let(:params) do
       {
-        id: category_id,
+        id: posts_category_id,
       }
     end
 
@@ -43,18 +44,18 @@ RSpec.describe CategoriesController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      it "validates @category" do
-        expect(assigns(:category)).to match(category)
+      it "validates @posts_category" do
+        expect(assigns(:posts_category)).to match(posts_category)
       end
     end
   end
 
   describe "GET #edit" do
-    let(:category) { FactoryBot.create(:category) }
-    let(:category_id) { category.id }
+    let(:posts_category) { FactoryBot.create(:posts_category) }
+    let(:posts_category_id) { posts_category.id }
     let(:params) do
       {
-        id: category_id,
+        id: posts_category_id,
       }
     end
 
@@ -69,8 +70,8 @@ RSpec.describe CategoriesController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      it "validates @category exists" do
-        expect(assigns(:category)).to match(category)
+      it "validates @posts_category exists" do
+        expect(assigns(:posts_category)).to match(posts_category)
       end
     end
   end
@@ -88,27 +89,36 @@ RSpec.describe CategoriesController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      it "validates @user exists" do
-        expect(assigns(:category)).to be_a_new(Category)
+      it "validates @posts_category exists" do
+        expect(assigns(:posts_category)).to be_a_new(PostsCategory)
       end
     end
   end
 
   describe "POST #create" do
 
-    let(:category) { FactoryBot.attributes_for(:category) }
+    let(:current_post) { FactoryBot.create(:post) }
+    let(:category) { FactoryBot.create(:category) }
+
+    let(:posts_category) do
+      FactoryBot.attributes_for(:posts_category,
+                                post_id: current_post.id,
+                                category_id: category.id)
+    end
 
     let(:params) do
       {
-        category: category,
+        posts_category: posts_category,
       }
     end
 
     context "when the request is valid" do
 
-      before { post :create, params: params }
+      before do
+        post :create, params: params
+      end
 
-      it "returns status code :found" do
+      it "returns status code :ok" do
         expect(response).to have_http_status(:found)
       end
 
@@ -117,14 +127,21 @@ RSpec.describe CategoriesController, type: :controller do
 
   describe "POST #update" do
 
+    let(:current_post) { FactoryBot.create(:post) }
     let(:category) { FactoryBot.create(:category) }
-    let(:category_id) { category.id }
-    let(:updated_category) { FactoryBot.attributes_for(:category) }
+
+    let(:posts_category) { FactoryBot.create(:posts_category, post_id: current_post.id, category_id: category.id) }
+    let(:posts_category_id) { posts_category.id }
+    let(:updated_posts_category) do
+      FactoryBot.attributes_for(:posts_category,
+                                post_id: current_post.id,
+                                category_id: category.id)
+    end
 
     let(:params) do
       {
-        id: category_id,
-        category: updated_category,
+        id: posts_category_id,
+        posts_category: updated_posts_category,
       }
     end
 
@@ -132,7 +149,7 @@ RSpec.describe CategoriesController, type: :controller do
 
       before { post :update, params: params }
 
-      it "returns status code :found" do
+      it "returns status code :ok" do
         expect(response).to have_http_status(:found)
       end
 
@@ -145,12 +162,12 @@ RSpec.describe CategoriesController, type: :controller do
 
   describe "POST #destroy" do
 
-    let(:category) { FactoryBot.create(:category) }
-    let(:category_id) { category.id }
+    let(:posts_category) { FactoryBot.create(:posts_category) }
+    let(:posts_category_id) { posts_category.id }
 
     let(:params) do
       {
-        id: category_id,
+        id: posts_category_id,
       }
     end
 
@@ -168,4 +185,5 @@ RSpec.describe CategoriesController, type: :controller do
 
     end
   end
+
 end
