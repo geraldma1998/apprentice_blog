@@ -40,7 +40,7 @@ class CategoriesController < ApplicationController
 
   def destroy
     respond_to do |format|
-      format.html { redirect_to posts_path, notice: "Category was successfully deleted" } if @category.destroy
+      format.html { redirect_to categories_path, notice: "Category was successfully deleted" } if @category.destroy
     end
   end
 
