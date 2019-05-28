@@ -1,17 +1,22 @@
-<div>
-  <strong>Id</strong>
-  <%= @user.id %>
-</div>
 
-<div>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</div>
+<div class="container">
 
-<div>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</div>
+    <div class="card hovercard">
+      <div class="cardheader">
+      </div>
+      <div class="avatar">
+        <img alt="" src="http://lorempixel.com/100/100/animals/">
+      </div>
+      <div class="info">
+          <div class="title">
+            <%= @user.person.first_name + " " + @user.person.last_name %>
+          </div>
+          <div class="desc">Email: <%= @user.email %></div>
+          <div class="desc">Username: <%= @user.username %></div>
+          <div class="desc">Identification: <%= @user.person.identification %></div>
+          <div class="desc">Phone number: <%= @user.person.phone_number %></div>
+      </div>
+    </div>
+</div>	
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to 'Back', root_path %>
