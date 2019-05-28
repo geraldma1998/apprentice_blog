@@ -2,6 +2,7 @@
 
 class RankingsController < ApplicationController
 
+  access admin: :all
   before_action :set_ranking, only: %i[show edit update destroy]
 
   def index

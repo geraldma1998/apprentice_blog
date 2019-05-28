@@ -2,6 +2,7 @@
 
 class PostsController < ApplicationController
 
+  access admin: :all
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
@@ -29,12 +30,10 @@ class PostsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: "Post was successfully updated" }
-      else
-        format.html { render :edit }
-      end
+    if @post.update!(post_params)
+      redirect_to @post, notice: "Post was successfully updated"
+    else
+      render :edit
     end
   end
 

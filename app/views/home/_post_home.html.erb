@@ -1,0 +1,12 @@
+<div class="post-preview">
+  <a href="post_home/<%= post_home.id %>">
+    <h2 class="post-title">
+      <%= post_home.title %>
+    </h2>
+  </a>
+  <p class="post-meta">Posted by
+  <%= link_to post_home.user.username, post_home.user %>
+  <%= (time_ago_in_words post_home.created_at) + " ago" %></p>
+</div>
+
+<hr>

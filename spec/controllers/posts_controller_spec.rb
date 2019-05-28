@@ -3,6 +3,9 @@
 require "rails_helper"
 
 RSpec.describe PostsController, type: :controller do
+  let(:global_user) { FactoryBot.create(:user) }
+
+  before { sign_in global_user }
 
   describe "GET #index" do
     let(:posts) { FactoryBot.create_list(:post, 3) }

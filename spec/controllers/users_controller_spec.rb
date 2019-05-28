@@ -8,7 +8,10 @@ RSpec.describe UsersController, type: :controller do
     let(:users) { FactoryBot.create_list(:user, 3) }
 
     context "when the request is valid" do
-      before { get :index }
+      before do
+        sign_in(users.first)
+        get :index
+      end
 
       it "renders the index view" do
         expect(response).to render_template(:index)
@@ -34,7 +37,10 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context "when the request is valid" do
-      before { get :show, params: params }
+      before do
+        sign_in(current_user)
+        get :show, params: params
+      end
 
       it "renders the show view" do
         expect(response).to render_template(:show)
@@ -60,7 +66,10 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context "when the request is valid" do
-      before { get :edit, params: params }
+      before do
+        sign_in(current_user)
+        get :edit, params: params
+      end
 
       it "renders the edit view" do
         expect(response).to render_template(:edit)
@@ -78,8 +87,13 @@ RSpec.describe UsersController, type: :controller do
 
   describe "GET #new" do
 
+    let(:current_user) { FactoryBot.create(:user) }
+
     context "when the request is valid" do
-      before { get :new }
+      before do
+        sign_in(current_user)
+        get :new
+      end
 
       it "renders the new view" do
         expect(response).to render_template(:new)
@@ -98,6 +112,7 @@ RSpec.describe UsersController, type: :controller do
   describe "POST #create" do
 
     let(:current_user) { FactoryBot.attributes_for(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     let(:params) do
       {
@@ -107,7 +122,10 @@ RSpec.describe UsersController, type: :controller do
 
     context "when the request is valid" do
 
-      before { post :create, params: params }
+      before do
+        sign_in(user)
+        post :create, params: params
+      end
 
       it "returns status code :found" do
         expect(response).to have_http_status(:found)
@@ -131,7 +149,10 @@ RSpec.describe UsersController, type: :controller do
 
     context "when the request is valid" do
 
-      before { post :update, params: params }
+      before do
+        sign_in current_user
+        post :update, params: params
+      end
 
       it "returns status code :found" do
         expect(response).to have_http_status(:found)
@@ -157,7 +178,10 @@ RSpec.describe UsersController, type: :controller do
 
     context "when the request is valid" do
 
-      before { post :destroy, params: params }
+      before do
+        sign_in current_user
+        post :destroy, params: params
+      end
 
       it "returns status code :found" do
         expect(response).to have_http_status(:found)

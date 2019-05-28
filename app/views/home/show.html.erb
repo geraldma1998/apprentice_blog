@@ -1,0 +1,18 @@
+ <div class="row">
+  <div class="col-lg-8 col-md-10 mx-auto">
+  	<p><%= @post_home.content %></p>
+
+  	<hr>
+
+    <div class="card my-4">
+      <h5 class="card-header">Comments:</h5>
+      <div class="card-body">
+        <%= render "comment_form" %>
+      </div>
+    </div>
+
+    <div id="comments">
+      <%= render partial: "comment_home", collection: @comments %>
+    </div>
+  </div>
+</div>

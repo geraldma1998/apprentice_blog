@@ -3,6 +3,10 @@
 require "rails_helper"
 
 RSpec.describe CategoriesController, type: :controller do
+  let(:global_user) { FactoryBot.create(:user) }
+
+  before { sign_in global_user }
+
   describe "GET #index" do
     let(:categories) { FactoryBot.create_list(:category, 3) }
 

@@ -5,5 +5,6 @@ FactoryBot.define do
     username { Faker::Internet.username(8).gsub(/[_\W]/, "") }
     email { Faker::Internet.email }
     password { "password123" }
+    roles { "admin" }
   end
 end

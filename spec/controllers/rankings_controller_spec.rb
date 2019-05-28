@@ -3,6 +3,10 @@
 require "rails_helper"
 
 RSpec.describe RankingsController, type: :controller do
+  let(:global_user) { FactoryBot.create(:user) }
+
+  before { sign_in global_user }
+
   describe "GET #index" do
     let(:rankings) { FactoryBot.create_list(:ranking, 3) }
 

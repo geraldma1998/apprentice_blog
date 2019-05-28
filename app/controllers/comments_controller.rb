@@ -2,6 +2,7 @@
 
 class CommentsController < ApplicationController
 
+  access admin: :all, client: [:create]
   before_action :set_comment, only: %i[show edit update destroy]
 
   def index
@@ -17,11 +18,17 @@ class CommentsController < ApplicationController
   def edit; end
 
   def create
-    @comment = Comment.new(comment_params)
+    @comment = current_user.comments.new(comment_params)
+    post = Post.find(params[:id])
+    @comment.post = post
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: "Comment was successfully created." }
+        CommentsNotificationService.new(post_id: post.id).send_comment_notification
+
+        @comments = post.comments
+        format.js
+        format.html { redirect_to "post_home/" + @comment.post.id.to_s, notice: "Comment was successfully created." }
       else
         format.html { render :new }
       end
