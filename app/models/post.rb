@@ -7,6 +7,9 @@ class Post < ApplicationRecord
   has_many :posts_categories, dependent: :destroy
   has_many :comments, dependent: :destroy
 
+  has_many :categories, through: :posts_categories
+  has_many :users, through: :comments
+
   validates :title, length: { in: 1..100 },
                     presence: true
 
