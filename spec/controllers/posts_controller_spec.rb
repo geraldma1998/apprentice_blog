@@ -113,7 +113,7 @@ RSpec.describe PostsController, type: :controller do
       before { post :create, params: params }
 
       it "returns status code :ok" do
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:found)
       end
 
     end

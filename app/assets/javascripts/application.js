@@ -17,6 +17,7 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+//= require jquery_nested_form
 
 
 (function($) {
@@ -60,3 +61,15 @@
   }
 
 })(jQuery); // End of use strict
+
+$('.remove-posts_category:first').hide();
+
+function reorderPostsCategories() {
+  $('#posts_categories-form h4.subsection.new-posts_categories span:visible').each(function(index) {
+    $(this).html(index + 1);
+  });
+};
+
+$(document).on('nested:fieldAdded nested:fieldRemoved', function(event){
+  reorderPostsCategories();
+});

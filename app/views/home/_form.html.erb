@@ -1,0 +1,52 @@
+<%= nested_form_for(home_post) do |form| %>
+  <% if home_post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(home_post.errors.count, "error") %> prohibited this home_post from being saved:</h2>
+
+      <ul>
+      <% home_post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div id="add-posts_categories">
+    <div id="posts_categories-form">
+      <%= form.fields_for(:posts_categories) do |ff| %>
+        <hr>
+        <h4 class="subsection new-posts_categories">Sponsorship Level <span>1</span></h4>
+
+        <%= ff.label :category_id %>
+        <%= ff.text_field :category_id %>
+
+        <div class="remove-posts_category">
+          <%= ff.link_to_remove do %>
+            <button type="button">Remove sponsorship level</button>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <hr>
+    <div id="add-posts_categories">
+      <%= form.link_to_add :posts_categories, data: { target: "#posts_categories-form" } do %>
+        <button type="button">+ Add another sponsorship level</button>
+      <% end %>
+    </div>
+  </div>
+  
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -18,6 +18,8 @@ Rails.application.routes.draw do
 
   root "home#index"
 
+  get "post_home/new", to: "home#new"
+
   get "post_home/:id", to: "home#show"
 
   post "/post_home/:id/comments", to: "comments#create", as: "post_comments"

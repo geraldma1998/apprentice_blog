@@ -2,7 +2,7 @@
 
 class PostsController < ApplicationController
 
-  access admin: :all
+  access admin: :all, client: [:create]
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
@@ -18,7 +18,7 @@ class PostsController < ApplicationController
   def edit; end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.new(post_params)
 
     respond_to do |format|
       if @post.save
@@ -50,7 +50,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :content, :opened)
+    params.require(:post).permit(:title, :content, :opened, posts_categories_attributes: %i[id category_id _destroy])
   end
 
 end
