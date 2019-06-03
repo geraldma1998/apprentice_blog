@@ -78,7 +78,6 @@ $(document).on('nested:fieldAdded nested:fieldRemoved', function(event){
 var $stars;
 
 jQuery(document).ready(function ($) {
-//$( document ).load( function ($) {
 
   // Custom whitelist to allow for using HTML tags in popover content
   var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
@@ -153,7 +152,6 @@ jQuery(document).ready(function ($) {
     }   
   });
  
-
   // Cancel, just close the popover
   $('#rateMe').on('click', '#closePopoverButton', function () {
     $stars.popover('hide');
