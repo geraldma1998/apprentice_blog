@@ -10,6 +10,9 @@ class Post < ApplicationRecord
   has_many :rankings, dependent: :destroy
   accepts_nested_attributes_for :posts_categories
 
+  has_many :categories, through: :posts_categories
+  has_many :users, through: :comments
+
   validates :title, length: { in: 1..100 },
                     presence: true
 
