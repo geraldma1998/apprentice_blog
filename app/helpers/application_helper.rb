@@ -30,7 +30,7 @@ module ApplicationHelper
 
   def client_li_tags
     concat li_tag_path "Home", root_path, :get
-    concat li_tag_path "Ranking", users_path, :get
+    concat li_tag_path "Ranking", rankings_path, :get
     concat li_tag_path "Logout", destroy_user_session_path, :delete
   end
 
@@ -53,6 +53,10 @@ module ApplicationHelper
       concat time_ago_in_words @post_home.created_at
       concat " ago"
     end
+  end
+
+  def user_create_post
+    (link_to "Create post", post_home_new_path, class: "btn btn-primary") + content_tag(:hr) if current_user
   end
 
 end

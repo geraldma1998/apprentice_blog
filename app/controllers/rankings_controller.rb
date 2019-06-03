@@ -2,7 +2,7 @@
 
 class RankingsController < ApplicationController
 
-  access all: :all # , client: only: [:index,:create, :update]
+  access all: :all
   before_action :set_ranking, only: %i[show edit update destroy]
   before_action :set_index_type, only: :index
 
