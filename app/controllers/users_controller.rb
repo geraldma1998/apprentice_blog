@@ -2,6 +2,7 @@
 
 class UsersController < ApplicationController
 
+  access admin: :all, client: [:show]
   before_action :set_user, only: %i[show edit update destroy]
 
   def index
@@ -58,6 +59,7 @@ class UsersController < ApplicationController
                                  :email,
                                  :password,
                                  :password_confirmation,
+                                 :roles,
                                  person_attributes: %i[
                                    identification
                                    phone_number

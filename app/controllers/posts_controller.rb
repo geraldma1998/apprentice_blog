@@ -2,6 +2,7 @@
 
 class PostsController < ApplicationController
 
+  access admin: :all, client: [:create]
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
@@ -17,24 +18,22 @@ class PostsController < ApplicationController
   def edit; end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.new(post_params)
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: "Post was successfully created." }
+        format.html { redirect_to root_path, notice: "Post was successfully created." }
       else
-        format.html { render :new }
+        format.html { render "home/new.html.erb" }
       end
     end
   end
 
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: "Post was successfully updated" }
-      else
-        format.html { render :edit }
-      end
+    if @post.update!(post_params)
+      redirect_to @post, notice: "Post was successfully updated"
+    else
+      render :edit
     end
   end
 
@@ -51,7 +50,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :content, :opened)
+    params.require(:post).permit(:title, :content, :opened, posts_categories_attributes: %i[id category_id _destroy])
   end
 
 end

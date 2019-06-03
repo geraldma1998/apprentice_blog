@@ -2,6 +2,7 @@
 
 class PostsCategoriesController < ApplicationController
 
+  access admin: :all
   before_action :set_posts_category, only: %i[show edit update destroy]
 
   def index

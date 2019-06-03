@@ -3,6 +3,9 @@
 require "rails_helper"
 
 RSpec.describe PostsController, type: :controller do
+  let(:global_user) { FactoryBot.create(:user) }
+
+  before { sign_in global_user }
 
   describe "GET #index" do
     let(:posts) { FactoryBot.create_list(:post, 3) }
@@ -109,8 +112,8 @@ RSpec.describe PostsController, type: :controller do
 
       before { post :create, params: params }
 
-      it "returns status code :ok" do
-        expect(response).to have_http_status(:ok)
+      it "returns status code :found" do
+        expect(response).to have_http_status(:found)
       end
 
     end
@@ -134,7 +137,7 @@ RSpec.describe PostsController, type: :controller do
 
       before { post :update, params: params }
 
-      it "returns status code :ok" do
+      it "returns status code :found" do
         expect(response).to have_http_status(:found)
       end
 

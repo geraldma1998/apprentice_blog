@@ -2,10 +2,17 @@
 
 class RankingsController < ApplicationController
 
+  access all: :all # , client: only: [:index,:create, :update]
   before_action :set_ranking, only: %i[show edit update destroy]
+  before_action :set_index_type, only: :index
 
   def index
-    @rankings = Ranking.all
+    if @index_type
+      @rankings = Ranking.where(post_id: @post_id, user_id: current_user.id)
+    else
+      @posts = Post.all.sort_by(&:ranking_value).reverse
+      @rankings = Ranking.all
+    end
   end
 
   def new
@@ -17,13 +24,14 @@ class RankingsController < ApplicationController
   def edit; end
 
   def create
-    @ranking = Ranking.new(ranking_params)
+    @ranking = current_user.rankings.new(ranking_params)
 
     respond_to do |format|
       if @ranking.save
         format.html { redirect_to @ranking, notice: "Ranking was successfully created." }
+        format.json { render json: @ranking, status: :created }
       else
-        format.html { render :new }
+        format.html { render json: @ranking.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -50,8 +58,13 @@ class RankingsController < ApplicationController
     @ranking = Ranking.find(params[:id])
   end
 
+  def set_index_type
+    @index_type = params["index_type"]
+    @post_id = params["post_id"]
+  end
+
   def ranking_params
-    params.require(:ranking).permit(:rank, :user_id, :post_id)
+    params.require(:ranking).permit(:rank, :index_type, :user_id, :post_id)
   end
 
 end

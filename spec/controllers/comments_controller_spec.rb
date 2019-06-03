@@ -3,6 +3,10 @@
 require "rails_helper"
 
 RSpec.describe CommentsController, type: :controller do
+  let(:global_user) { FactoryBot.create(:user) }
+
+  before { sign_in global_user }
+
   describe "GET #index" do
     let(:comments) { FactoryBot.create_list(:comment, 3) }
 
@@ -97,9 +101,11 @@ RSpec.describe CommentsController, type: :controller do
   describe "POST #create" do
 
     let(:current_comment) { FactoryBot.attributes_for(:comment) }
+    let(:current_post) { FactoryBot.create(:post) }
 
     let(:params) do
       {
+        id: current_post.id,
         comment: current_comment,
       }
     end
@@ -108,8 +114,8 @@ RSpec.describe CommentsController, type: :controller do
 
       before { post :create, params: params }
 
-      it "returns status code :ok" do
-        expect(response).to have_http_status(:ok)
+      it "returns status code :found" do
+        expect(response).to have_http_status(:found)
       end
 
     end
