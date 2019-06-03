@@ -100,27 +100,6 @@ RSpec.describe RankingsController, type: :controller do
     end
   end
 
-  describe "POST #create" do
-
-    let(:ranking) { FactoryBot.attributes_for(:ranking) }
-
-    let(:params) do
-      {
-        ranking: ranking,
-      }
-    end
-
-    context "when the request is valid" do
-
-      before { post :create, params: params }
-
-      it "returns status code :ok" do
-        expect(response).to have_http_status(:ok)
-      end
-
-    end
-  end
-
   describe "POST #update" do
 
     let(:ranking) { FactoryBot.create(:ranking) }

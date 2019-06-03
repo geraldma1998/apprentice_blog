@@ -22,9 +22,9 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: "Post was successfully created." }
+        format.html { redirect_to root_path, notice: "Post was successfully created." }
       else
-        format.html { render :new }
+        format.html { render "home/new.html.erb" }
       end
     end
   end

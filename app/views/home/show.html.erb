@@ -1,7 +1,19 @@
- <div class="row">
+ <div id="current_post" class="row" data-id="<%= @post_home.id %>">
   <div class="col-lg-8 col-md-10 mx-auto">
-    <p><%= @post_home.content %></p>
-
+    <p><i class="fa fa-tags"></i> Categories:
+      <%= render partial: "category_home", collection: @post_home.categories %>
+    <p>
+    <span id="rateMe">
+      <i class="fas fa-star py-2 px-1 rate-popover" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+      <i class="fas fa-star py-2 px-1 rate-popover" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+      <i class="fas fa-star py-2 px-1 rate-popover" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+      <i class="fas fa-star py-2 px-1 rate-popover" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+      <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+    </span>
+    <hr>
+    <%= @post_home.content %>
+    </p>
+    <p class="result"></p>
     <hr>
 
     <div class="card my-4">

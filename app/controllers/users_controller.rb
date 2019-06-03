@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
 
-  access admin: :all
+  access admin: :all, client: [:show]
   before_action :set_user, only: %i[show edit update destroy]
 
   def index
