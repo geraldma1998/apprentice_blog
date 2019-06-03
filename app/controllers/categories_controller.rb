@@ -2,6 +2,7 @@
 
 class CategoriesController < ApplicationController
 
+  access admin: :all
   before_action :set_category, only: %i[show edit update destroy]
 
   def index

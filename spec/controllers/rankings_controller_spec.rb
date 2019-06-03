@@ -3,6 +3,10 @@
 require "rails_helper"
 
 RSpec.describe RankingsController, type: :controller do
+  let(:global_user) { FactoryBot.create(:user) }
+
+  before { sign_in global_user }
+
   describe "GET #index" do
     let(:rankings) { FactoryBot.create_list(:ranking, 3) }
 
@@ -93,27 +97,6 @@ RSpec.describe RankingsController, type: :controller do
       it "validates @ranking exists" do
         expect(assigns(:ranking)).to be_a_new(Ranking)
       end
-    end
-  end
-
-  describe "POST #create" do
-
-    let(:ranking) { FactoryBot.attributes_for(:ranking) }
-
-    let(:params) do
-      {
-        ranking: ranking,
-      }
-    end
-
-    context "when the request is valid" do
-
-      before { post :create, params: params }
-
-      it "returns status code :ok" do
-        expect(response).to have_http_status(:ok)
-      end
-
     end
   end
 

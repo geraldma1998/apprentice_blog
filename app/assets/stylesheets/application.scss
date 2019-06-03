@@ -403,3 +403,22 @@ footer .copyright {
   font-size: 16px;
   padding: 25px 35px;
 }
+
+
+//Estrellas rating
+
+.animated {
+  -webkit-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  transition: height 0.2s;
+}
+
+.stars
+{
+  margin: 20px 0;
+  font-size: 24px;
+  color: #d17581;
+}
+
+.amber-text {
+  color: #ffc107 !important; }

@@ -1,0 +1,46 @@
+<%= nested_form_for(home_post) do |form| %>
+  <% if home_post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(home_post.errors.count, "error") %> prohibited this home_post from being saved:</h2>
+
+      <ul>
+      <% home_post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :title %>
+    <%= form.text_field :title, class:"form-control", autofocus: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, class:"form-control" %>
+  </div>
+
+  <div id="add-posts_categories">
+    <div id="posts_categories-form">
+      <%= form.fields_for(:posts_categories) do |ff| %>
+        <hr>
+        <div class="form-group">
+          <%= ff.collection_select(:category_id, Category.all, :id, :name,{}, {class:"form-control"}) %>
+        </div>
+
+      <% end %>
+    </div>
+    <hr>
+    <div class="form-group">
+      <div id="add-posts_categories">
+        <%= form.link_to_add :posts_categories, data: { target: "#posts_categories-form" } do %>
+          <button type="button" class="btn btn-primary">+ Add and select the category</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+  <%= form.submit "Publish", class:"btn btn-primary" %>
+
+<% end %>

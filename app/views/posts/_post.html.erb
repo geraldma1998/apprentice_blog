@@ -1,8 +1,5 @@
 <tr>
-  <td><%= post.id %></td>
-  <td><%= post.title %></td>
-  <td><%= post.content %></td>
-  <td><%= link_to 'Show', post %></td>
-  <td><%= link_to 'Edit', edit_post_path(post) %></td>
-  <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <td><%= link_to post.title, "post_home/"+post.id.to_s, style: "font-weight:bold;" %></td>
+  <td><%= post.user.username %></td>
+  <td><%= post.ranking_value %></td>
 </tr>
