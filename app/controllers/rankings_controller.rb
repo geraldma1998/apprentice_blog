@@ -3,7 +3,7 @@
 class RankingsController < ApplicationController
 
   access all: :all
-  before_action :set_ranking, only: %i[show edit update destroy]
+  before_action :set_ranking, only: %i[update destroy]
   before_action :set_index_type, only: :index
 
   def index
@@ -14,14 +14,6 @@ class RankingsController < ApplicationController
       @rankings = Ranking.all
     end
   end
-
-  def new
-    @ranking = Ranking.new
-  end
-
-  def show; end
-
-  def edit; end
 
   def create
     @ranking = current_user.rankings.new(ranking_params)

@@ -3,23 +3,11 @@
 class CommentsController < ApplicationController
 
   access admin: :all, client: [:create]
-  before_action :set_comment, only: %i[show edit update destroy]
-
-  def index
-    @comments = Comment.all
-  end
-
-  def new
-    @comment = Comment.new
-  end
-
-  def show; end
-
-  def edit; end
+  before_action :set_comment, only: %i[update destroy]
 
   def create
     @comment = current_user.comments.new(comment_params)
-    post = Post.find(params[:id])
+    post = Post.find(params[:post_id])
     @comment.post = post
 
     respond_to do |format|
@@ -28,7 +16,6 @@ class CommentsController < ApplicationController
 
         @comments = post.comments
         format.js
-        format.html { redirect_to "post_home/" + @comment.post.id.to_s, notice: "Comment was successfully created." }
       else
         format.html { render :new }
       end
@@ -38,16 +25,16 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: "Comment was successfully updated" }
+        format.html { redirect_to root_path, notice: "Comment was successfully updated" }
       else
-        format.html { render :edit }
+        format.html { redirect_to root_path, notice: "Comment not was created" }
       end
     end
   end
 
   def destroy
     respond_to do |format|
-      format.html { redirect_to comments_path, notice: "Comment was successfully deleted" } if @comment.destroy
+      format.html { redirect_to root_path, notice: "Comment was successfully deleted" } if @comment.destroy
     end
   end
 

@@ -1,0 +1,6 @@
+img {
+  &::selection, &::-moz-selection {
+    color: #fff;
+    background: transparent;
+  }
+}
