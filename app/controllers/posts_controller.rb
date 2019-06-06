@@ -2,55 +2,47 @@
 
 class PostsController < ApplicationController
 
-  access admin: :all, client: [:create]
-  before_action :set_post, only: %i[show edit update destroy]
+  before_action :set_post, only: [:show]
 
   def index
-    @posts = Post.all
+    @posts = Post.order(created_at: :desc)
+  end
+
+  def show
+    @header_title = @post.title
+    @header_subtitle = helpers.set_user_information_post
+    @comments = @post.comments
+    @comment = Comment.new
+
+    is_necessary_add_ranking = current_user && current_user.rankings.where(post_id: @post.id).count.positive?
+
+    @user_ranking = current_user.rankings.where(post_id: @post.id).first.rank if is_necessary_add_ranking
   end
 
   def new
     @post = Post.new
   end
 
-  def show; end
-
-  def edit; end
-
   def create
     @post = current_user.posts.new(post_params)
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to root_path, notice: "Post was successfully created." }
+        format.html { redirect_to @post, notice: "Post was successfully created." }
       else
-        format.html { render "home/new.html.erb" }
+        format.html { render :new }
       end
-    end
-  end
-
-  def update
-    if @post.update!(post_params)
-      redirect_to @post, notice: "Post was successfully updated"
-    else
-      render :edit
-    end
-  end
-
-  def destroy
-    respond_to do |format|
-      format.html { redirect_to posts_path, notice: "Post was successfully deleted" } if @post.destroy
     end
   end
 
   private
 
-  def set_post
-    @post = Post.find(params[:id])
-  end
-
   def post_params
     params.require(:post).permit(:title, :content, :opened, posts_categories_attributes: %i[id category_id _destroy])
+  end
+
+  def set_post
+    @post = Post.find(params[:id])
   end
 
 end

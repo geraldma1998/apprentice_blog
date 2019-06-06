@@ -1,5 +1,12 @@
-<tr>
-  <td><%= link_to post.title, "post_home/"+post.id.to_s, style: "font-weight:bold;" %></td>
-  <td><%= post.user.username %></td>
-  <td><%= post.ranking_value %></td>
-</tr>
+<div class="post-preview">
+  <a href="posts/<%= post.id %>">
+    <h2 class="post-title">
+      <%= post.title %>
+    </h2>
+  </a>
+  <p class="post-meta">Posted by
+  <%= link_to post.user.username, post.user %>
+  <%= (time_ago_in_words post.created_at) + " ago" %></p>
+</div>
+
+<hr>

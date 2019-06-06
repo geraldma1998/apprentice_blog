@@ -48,15 +48,41 @@ module ApplicationHelper
   def set_user_information_post
     content_tag(:span, class: "meta") do
       concat "Posted by "
-      concat link_to @post_home.user.username, @post_home.user
+      concat link_to @post.user.username, @post.user
       concat " "
-      concat time_ago_in_words @post_home.created_at
+      concat time_ago_in_words @post.created_at
       concat " ago"
     end
   end
 
   def user_create_post
-    (link_to "Create post", post_home_new_path, class: "btn btn-primary") + content_tag(:hr) if current_user
+    (link_to "Create post", new_post_path, class: "btn btn-primary") + content_tag(:hr) if current_user
+  end
+
+  def set_post_ranking
+    star_titles = ["Very bad", "Poor", "Ok", "Good", "Excellent"]
+    star_class = ""
+    number_stars = 5
+    content_tag(:span, id: "rateMe") do
+      number_stars.times do |n|
+        star_class = if n <= @user_ranking
+                       "amber-text"
+                     else
+                       ""
+                     end
+        concat li_for_ranking n, star_titles[n], star_class
+      end
+    end
+  end
+
+  def li_for_ranking(index, title, star_class)
+    content_tag(:li, "",
+                class: ("fas fa-star py-2 px-1 rate-popover " + star_class),
+                "data-index": index,
+                "data-html": "true",
+                "data-toggle": "popover",
+                "data-placement": "top",
+                title: title)
   end
 
 end
