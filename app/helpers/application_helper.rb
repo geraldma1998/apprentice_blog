@@ -65,11 +65,7 @@ module ApplicationHelper
     number_stars = 5
     content_tag(:span, id: "rateMe") do
       number_stars.times do |n|
-        star_class = if n <= @user_ranking
-                       "amber-text"
-                     else
-                       ""
-                     end
+        star_class = n <= @user_ranking ? "amber-text" : ""
         concat li_for_ranking n, star_titles[n], star_class
       end
     end

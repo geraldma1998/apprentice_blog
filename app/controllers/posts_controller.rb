@@ -14,9 +14,13 @@ class PostsController < ApplicationController
     @comments = @post.comments
     @comment = Comment.new
 
-    is_necessary_add_ranking = current_user && current_user.rankings.where(post_id: @post.id).count.positive?
+    user_has_ranking = current_user && current_user.rankings.where(post_id: @post.id).count.positive?
 
-    @user_ranking = current_user.rankings.where(post_id: @post.id).first.rank if is_necessary_add_ranking
+    @user_ranking = if user_has_ranking
+                      current_user.rankings.where(post_id: @post.id).first.rank
+                    else
+                      0
+                    end
   end
 
   def new
