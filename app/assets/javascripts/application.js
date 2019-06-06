@@ -20,7 +20,7 @@
 //= require jquery_nested_form
 
 
-(function($) {
+/*(function($) {
   "use strict"; // Start of use strict
 
   // Floating label headings for the contact form
@@ -61,18 +61,7 @@
   }
 
 })(jQuery); // End of use strict
-
-$('.remove-posts_category:first').hide();
-
-function reorderPostsCategories() {
-  $('#posts_categories-form h4.subsection.new-posts_categories span:visible').each(function(index) {
-    $(this).html(index + 1);
-  });
-};
-
-$(document).on('nested:fieldAdded nested:fieldRemoved', function(event){
-  reorderPostsCategories();
-});
+*/
 
 //Rating
 var $stars;
