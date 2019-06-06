@@ -16,11 +16,7 @@ class PostsController < ApplicationController
 
     user_has_ranking = current_user && current_user.rankings.where(post_id: @post.id).count.positive?
 
-    @user_ranking = if user_has_ranking
-                      current_user.rankings.where(post_id: @post.id).first.rank
-                    else
-                      0
-                    end
+    @user_ranking = user_has_ranking ? current_user.rankings.where(post_id: @post.id).first.rank : 0
   end
 
   def new
