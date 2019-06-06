@@ -93,16 +93,6 @@ jQuery(document).ready(function ($) {
   let rank_id;
   let new_rank;
 
-  $.get( "/rankings.json",{ post_id: postId, index_type: "show"}, function( data ) {
-    response_request = data[0]
-    
-    if ( response_request !== undefined ) {
-      exists_rank = true;
-      markStarsAsActive(data[0].rank);
-      rank_id = data[0].id;
-    }
-  });
-
   $stars.on('mouseover', function () {
     var index = $(this).attr('data-index');
     markStarsAsActive(index);

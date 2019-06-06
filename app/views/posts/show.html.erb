@@ -1,19 +1,25 @@
+ <div id="current_post" class="row" data-id="<%= @post.id %>">
+  <div class="col-lg-8 col-md-10 mx-auto">
+    <p class="logger"></p>
+    <p><i class="fa fa-tags"></i> Categories:
+      <%= render partial: "categories/category", collection: @post.categories %>
+    <p>
+    <%= set_post_ranking %>
+    <hr>
+    <%= @post.content %>
+    </p>
+    <p class="result"></p>
+    <hr>
 
-<div>
-  <strong>Id:</strong>
-  <%= @post.id %>
+    <div class="card my-4">
+      <h5 class="card-header">Comments:</h5>
+      <div class="card-body">
+        <%= render "comments/form" %>
+      </div>
+    </div>
+
+    <div id="comments">
+      <%= render @comments %>
+    </div>
+  </div>
 </div>
-
-<div>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</div>
-
-<div>
-  <strong>Content:</strong>
-  <%= @post.content %>
-</div>
-
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
-
