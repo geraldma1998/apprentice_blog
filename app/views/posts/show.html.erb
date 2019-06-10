@@ -1,10 +1,12 @@
- <div id="current_post" class="row" data-id="<%= @post.id %>">
+ <div id="current_post" class="row" data-post="<%= @post.id %>" data-user="<%= current_user.id if current_user %>">
   <div class="col-lg-8 col-md-10 mx-auto">
     <p class="logger"></p>
     <p><i class="fa fa-tags"></i> Categories:
       <%= render partial: "categories/category", collection: @post.categories %>
     <p>
-    <%= set_post_ranking %>
+    <div id="stars_ranking">
+      <%= add_start_by_post_ranking @user_ranking %>
+    </div>
     <hr>
     <%= @post.content %>
     </p>

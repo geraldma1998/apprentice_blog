@@ -3,39 +3,16 @@
 class RankingsController < ApplicationController
 
   access all: :all
-  before_action :set_ranking, only: %i[update destroy]
+  before_action :set_ranking, only: %i[destroy]
   before_action :set_index_type, only: :index
+  before_action :set_ranking_match_by_search, only: :create
 
   def index
-    if @index_type
-      @rankings = Ranking.where(post_id: @post_id, user_id: current_user.id)
-    else
-      @posts = Post.all.sort_by(&:ranking_value).reverse
-      @rankings = Ranking.all
-    end
+    @posts = Post.all.sort_by(&:ranking_value).reverse
   end
 
   def create
-    @ranking = current_user.rankings.new(ranking_params)
-
-    respond_to do |format|
-      if @ranking.save
-        format.html { redirect_to @ranking, notice: "Ranking was successfully created." }
-        format.json { render json: @ranking, status: :created }
-      else
-        format.html { render json: @ranking.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @ranking.update(ranking_params)
-        format.html { redirect_to @ranking, notice: "Ranking was successfully updated" }
-      else
-        format.html { render :edit }
-      end
-    end
+    exists_ranking ? update_ranking : create_ranking
   end
 
   def destroy
@@ -45,6 +22,34 @@ class RankingsController < ApplicationController
   end
 
   private
+
+  def set_ranking_match_by_search
+    @ranking_match = Ranking.where(user_id: params[:user_id], post_id: params[:post_id])
+  end
+
+  def update_ranking
+    @ranking = @ranking_match.first
+
+    if @ranking.update(ranking_params)
+      render json: @ranking, status: :ok
+    else
+      render json: @ranking.errors, status: :unprocessable_entity
+    end
+  end
+
+  def create_ranking
+    @ranking = Ranking.new(ranking_params)
+
+    if @ranking.save
+      render json: @ranking, status: :created
+    else
+      render json: @ranking.errors, status: :unprocessable_entity
+    end
+  end
+
+  def exists_ranking
+    @ranking_match&.count&.positive?
+  end
 
   def set_ranking
     @ranking = Ranking.find(params[:id])

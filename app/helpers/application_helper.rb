@@ -36,12 +36,7 @@ module ApplicationHelper
 
   def admin_li_tags
     concat li_tag_path "Home", root_path, :get
-    concat li_tag_path "Users", users_path, :get
-    concat li_tag_path "Posts", posts_path, :get
-    concat li_tag_path "Categories", categories_path, :get
-    concat li_tag_path "PostsCategories", posts_categories_path, :get
-    concat li_tag_path "Comments", comments_path, :get
-    concat li_tag_path "Rankings", rankings_path, :get
+    concat li_tag_path "Ranking", rankings_path, :get
     concat li_tag_path "Logout", destroy_user_session_path, :delete
   end
 
@@ -59,13 +54,13 @@ module ApplicationHelper
     (link_to "Create post", new_post_path, class: "btn btn-primary") + content_tag(:hr) if current_user
   end
 
-  def set_post_ranking
+  def add_start_by_post_ranking(user_ranking)
     star_titles = ["Very bad", "Poor", "Ok", "Good", "Excellent"]
     star_class = ""
     number_stars = 5
     content_tag(:span, id: "rateMe") do
       number_stars.times do |n|
-        star_class = n <= @user_ranking ? "amber-text" : ""
+        star_class = n <= user_ranking ? "amber-text" : ""
         concat li_for_ranking n, star_titles[n], star_class
       end
     end
