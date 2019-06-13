@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :comments, only: %i[create update destroy]
 
-  resources :rankings, only: %i[index create update destroy]
+  resources :rankings, only: %i[index create]
 
   root "posts#index"
 end

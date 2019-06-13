@@ -3,8 +3,6 @@
 class RankingsController < ApplicationController
 
   access all: :all
-  before_action :set_ranking, only: %i[destroy]
-  before_action :set_index_type, only: :index
   before_action :set_ranking_match_by_search, only: :create
 
   def index
@@ -12,16 +10,28 @@ class RankingsController < ApplicationController
   end
 
   def create
-    exists_ranking ? update_ranking : create_ranking
-  end
-
-  def destroy
-    respond_to do |format|
-      format.html { redirect_to rankings_path, notice: "Ranking was successfully deleted" } if @ranking.destroy
-    end
+    ranking_exists ? update_ranking : create_ranking
   end
 
   private
+
+  def json_render(message, status)
+    render json: message, status: status
+  end
+
+  def create_ranking
+    @ranking = Ranking.new(ranking_params)
+
+    @ranking.save ? json_render(@ranking, :created) : json_render(@ranking.errors, :unprocessable_entity)
+  end
+
+  def ranking_exists
+    @ranking_match&.count&.positive?
+  end
+
+  def ranking_params
+    params.require(:ranking).permit(:rank, :index_type, :user_id, :post_id)
+  end
 
   def set_ranking_match_by_search
     @ranking_match = Ranking.where(user_id: params[:user_id], post_id: params[:post_id])
@@ -30,38 +40,7 @@ class RankingsController < ApplicationController
   def update_ranking
     @ranking = @ranking_match.first
 
-    if @ranking.update(ranking_params)
-      render json: @ranking, status: :ok
-    else
-      render json: @ranking.errors, status: :unprocessable_entity
-    end
-  end
-
-  def create_ranking
-    @ranking = Ranking.new(ranking_params)
-
-    if @ranking.save
-      render json: @ranking, status: :created
-    else
-      render json: @ranking.errors, status: :unprocessable_entity
-    end
-  end
-
-  def exists_ranking
-    @ranking_match&.count&.positive?
-  end
-
-  def set_ranking
-    @ranking = Ranking.find(params[:id])
-  end
-
-  def set_index_type
-    @index_type = params["index_type"]
-    @post_id = params["post_id"]
-  end
-
-  def ranking_params
-    params.require(:ranking).permit(:rank, :index_type, :user_id, :post_id)
+    @ranking.update(ranking_params) ? json_render(@ranking, :ok) : json_render(@ranking.errors, :unprocessable_entity)
   end
 
 end

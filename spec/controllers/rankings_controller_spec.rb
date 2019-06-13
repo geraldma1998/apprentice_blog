@@ -33,29 +33,4 @@ RSpec.describe RankingsController, type: :controller do
     end
   end
 
-  describe "POST #destroy" do
-
-    let(:ranking) { FactoryBot.create(:ranking) }
-    let(:ranking_id) { ranking.id }
-
-    let(:params) do
-      {
-        id: ranking_id,
-      }
-    end
-
-    context "when the request is valid" do
-
-      before { post :destroy, params: params }
-
-      it "returns status code :found" do
-        expect(response).to have_http_status(:found)
-      end
-
-      it "redirect_to :index" do
-        expect(response).to redirect_to(action: :index)
-      end
-
-    end
-  end
 end
