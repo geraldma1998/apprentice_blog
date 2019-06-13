@@ -32,7 +32,6 @@ jQuery ->
         @.previousTop = currentTop
       )
 
-
 $('.remove-posts_category:first').hide()
 
 reorderPostsCategories = ->
