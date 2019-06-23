@@ -3,60 +3,44 @@
 class RankingsController < ApplicationController
 
   access all: :all
-  before_action :set_ranking, only: %i[update destroy]
-  before_action :set_index_type, only: :index
+  before_action :set_ranking_match_by_search, only: :create
 
   def index
-    if @index_type
-      @rankings = Ranking.where(post_id: @post_id, user_id: current_user.id)
-    else
-      @posts = Post.all.sort_by(&:ranking_value).reverse
-      @rankings = Ranking.all
-    end
+    @posts = Post.all.sort_by(&:ranking_value).reverse
   end
 
   def create
-    @ranking = current_user.rankings.new(ranking_params)
-
-    respond_to do |format|
-      if @ranking.save
-        format.html { redirect_to @ranking, notice: "Ranking was successfully created." }
-        format.json { render json: @ranking, status: :created }
-      else
-        format.html { render json: @ranking.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @ranking.update(ranking_params)
-        format.html { redirect_to @ranking, notice: "Ranking was successfully updated" }
-      else
-        format.html { render :edit }
-      end
-    end
-  end
-
-  def destroy
-    respond_to do |format|
-      format.html { redirect_to rankings_path, notice: "Ranking was successfully deleted" } if @ranking.destroy
-    end
+    ranking_exists ? update_ranking : create_ranking
   end
 
   private
 
-  def set_ranking
-    @ranking = Ranking.find(params[:id])
+  def json_render(message, status)
+    render json: message, status: status
   end
 
-  def set_index_type
-    @index_type = params["index_type"]
-    @post_id = params["post_id"]
+  def create_ranking
+    @ranking = Ranking.new(ranking_params)
+
+    @ranking.save ? json_render(@ranking, :created) : json_render(@ranking.errors, :unprocessable_entity)
+  end
+
+  def ranking_exists
+    @ranking_match&.count&.positive?
   end
 
   def ranking_params
     params.require(:ranking).permit(:rank, :index_type, :user_id, :post_id)
+  end
+
+  def set_ranking_match_by_search
+    @ranking_match = Ranking.where(user_id: params[:user_id], post_id: params[:post_id])
+  end
+
+  def update_ranking
+    @ranking = @ranking_match.first
+
+    @ranking.update(ranking_params) ? json_render(@ranking, :ok) : json_render(@ranking.errors, :unprocessable_entity)
   end
 
 end
